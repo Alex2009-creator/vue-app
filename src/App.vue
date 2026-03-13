@@ -1,36 +1,28 @@
 <template>
-  <div class="container">
-    <h1 class="container__title">Текущая дата</h1>
-    <p class="container__text">{{ currentDate }}</p>    
+  <div id="app" class="container">
+    <Button
+      class="container__button"
+    >
+      Начать игру
+    </Button>    
   </div>  
 </template>
 
 <script setup>
-  import { ref } from 'vue';
-
-  const date = new Date();
-  const currentDate = ref(date.toLocaleDateString());
+  import Button from './components/Button.vue';    
 </script>
 
 <style scoped>
-  .container {
+  .container {    
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 300px;
-    border: 2px solid blue;
+    align-items: center;        
+  }
+
+  .container__button {
+    width: 335px;
+    height: auto;
     margin: auto;
-  }
-
-  .container__title {
-    font-size: 24px;
-    color: blue;
-  }
-
-  .container__text {
-    font-size: 20px;
-    color: blueviolet;
   }
 </style>
