@@ -12,7 +12,7 @@
 </script>
 
 <style scoped>
-    @import url('https://fonts.googleapis.com');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
     .container-button {
         padding: 16px 10px;          
