@@ -1,6 +1,13 @@
 <script setup>
+import { ref } from 'vue'
 import Score from './components/Score.vue'
 import Card from './components/Card.vue'
+
+const gamePoints = ref('110')
+const wordCard = ref('armour-piercer')
+const translationCard = ref('бронебойный')
+const stateCard = ref('opened')
+const statusCard = ref('success')
 
 const turnOverCard = (payload) => {
   return console.log('Событие 1:', payload)
@@ -16,12 +23,16 @@ const сhangeCardsStatus = (payload) => {
     <div class="header">
       <h1 class="header__title">Запомни слово</h1>
       <Score
-        text-score=110
+        :text-score="gamePoints"
         class="header__score"
       />
     </div>
     <div class="main">
       <Card
+      :word="wordCard"
+      :translation="translationCard"
+      :state="stateCard"
+      :status="statusCard"
       class="main__score"
       @turn-over="turnOverCard"
       @change-status="сhangeCardsStatus"
