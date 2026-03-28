@@ -5,13 +5,14 @@
     >
         <div class="container-card__box">
             <span class="container-card__label">01</span>
-            <h2 class="container-card__title">Unadmitted</h2>
+            <h2 v-if="isCardFlipped" class="container-card__title">{{ word }}</h2>
+            <h2 v-else-if="!isCardFlipped" class="container-card__title">{{ translation }}</h2>
             <div
                 class="container-card__description"
                 @click="changeStatusCard"
             >
                 <div v-if="isCardFlipped" class="container-card__message">Перевернуть</div>
-                <div v-else-if="!isCardFlipped" class="container-card__btns">Кнопки</div>
+                <div v-else-if="!isCardFlipped" class="container-card__btns">{{ state + ' ' + status }}</div>
             </div>
         </div>
     </div>
@@ -19,6 +20,18 @@
 
 <script setup>
     import { ref } from 'vue'
+
+    const {
+        word="Unadmitted",
+        translation="Не допущенный",
+        state="closed",
+        status="success"
+    } = defineProps({
+        word: String,
+        translation: String,
+        state: String,
+        status: String,
+    })
 
     const emit = defineEmits(["turn-over", "change-status"])
     const flipСard = () => {
