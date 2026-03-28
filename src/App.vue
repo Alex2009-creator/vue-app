@@ -1,30 +1,73 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Score from './components/Score.vue'
+import Card from './components/Card.vue'
+
+const turnOverCard = (payload) => {
+  return console.log('Событие 1:', payload)
+}
+
+const сhangeCardsStatus = (payload) => {
+  return console.log('Событие 2:', payload)
+}
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="container">
+    <div class="header">
+      <h1 class="header__title">Запомни слово</h1>
+      <Score
+        text-score=110
+        class="header__score"
+      />
+    </div>
+    <div class="main">
+      <Card
+      class="main__score"
+      @turn-over="turnOverCard"
+      @change-status="сhangeCardsStatus"
+    />
+    </div>    
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+  .container {
+    width: 1440px;
+    height: 100vh;
+    background-color: #F0F4F8;
+  }
+
+  .header {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header__title {
+    font-family: Roboto;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-left: 20px;
+  }
+
+  .header__score {
+    width: 110px;
+    height: 48px;
+    margin-right: 20px;
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .main__score {
+    width: 250px;
+    height: 376px;
+  }
 </style>
