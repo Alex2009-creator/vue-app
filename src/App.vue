@@ -6,8 +6,7 @@ import Card from './components/Card.vue'
 const gamePoints = ref('110')
 const wordCard = ref('armour-piercer')
 const translationCard = ref('бронебойный')
-const stateCard = ref('opened')
-const statusCard = ref('success')
+const resultCard = ref('сталь')
 
 const turnOverCard = (payload) => {
   return console.log('Событие 1:', payload)
@@ -16,6 +15,8 @@ const turnOverCard = (payload) => {
 const сhangeCardsStatus = (payload) => {
   return console.log('Событие 2:', payload)
 }
+
+const source = ref(4)
 </script>
 
 <template>
@@ -29,10 +30,12 @@ const сhangeCardsStatus = (payload) => {
     </div>
     <div class="main">
       <Card
+      v-for="index in source"
+      :key="index"
       :word="wordCard"
       :translation="translationCard"
-      :state="stateCard"
-      :status="statusCard"
+      :result="resultCard"
+      :cardnumber="index"
       class="main__score"
       @turn-over="turnOverCard"
       @change-status="сhangeCardsStatus"
