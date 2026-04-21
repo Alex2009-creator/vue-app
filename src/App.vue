@@ -1,22 +1,41 @@
 <script setup>
-import { ref } from 'vue'
-import Score from './components/Score.vue'
-import Card from './components/Card.vue'
+  import { ref, onMounted } from 'vue'
+  import Score from './components/Score.vue'
+  import Card from './components/Card.vue'
 
-const gamePoints = ref('110')
-const wordCard = ref('armour-piercer')
-const translationCard = ref('бронебойный')
-const resultCard = ref('сталь')
+  const gamePoints = ref('110')
+  const resultCard = ref('сталь')
 
-const turnOverCard = (payload) => {
-  return console.log('Событие 1:', payload)
-}
+  const turnOverCard = (payload) => {
+    return console.log('Событие 1:', payload)
+  }
 
-const сhangeCardsStatus = (payload) => {
-  return console.log('Событие 2:', payload)
-}
+  const сhangeCardsStatus = (payload) => {
+    return console.log('Событие 2:', payload)
+  }
 
-const source = ref(4)
+  const words = ref([]);
+  const isLoading = ref(true);
+  const error = ref(null);
+
+  const fetchWords = async () => {
+    try {
+      isLoading.value = true;
+      const response = await fetch('/api/random-words');
+      
+      if (!response.ok) throw new Error('Ошибка сети');
+      
+      // API возвращает массив объектов
+      words.value = await response.json();
+    } catch (err) {
+      error.value = err.message;
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  // Запускаем загрузку при монтировании
+  onMounted(fetchWords);
 </script>
 
 <template>
@@ -28,12 +47,14 @@ const source = ref(4)
         class="header__score"
       />
     </div>
+    <div v-if="isLoading">Загрузка слов...</div>
+    <div v-else-if="error">Ошибка: {{ error }}</div>    
     <div class="main">
       <Card
-      v-for="index in source"
+      v-for="(item, index) in words"
       :key="index"
-      :word="wordCard"
-      :translation="translationCard"
+      :word="item.word"
+      :translation="item.translation"
       :result="resultCard"
       :cardnumber="index"
       class="main__score"
