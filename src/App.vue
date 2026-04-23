@@ -1,17 +1,15 @@
 <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, provide } from 'vue'
   import Score from './components/Score.vue'
   import Card from './components/Card.vue'
 
-  const gamePoints = ref('110')
-  const resultCard = ref('сталь')
+  const gamePoints = ref(0)
+  provide('gamePoints', gamePoints);
 
-  const turnOverCard = (payload) => {
-    return console.log('Событие 1:', payload)
-  }
+  const resultCard = ref('')
 
   const сhangeCardsStatus = (payload) => {
-    return console.log('Событие 2:', payload)
+    return resultCard.value = payload
   }
 
   const words = ref([]);
@@ -58,7 +56,6 @@
       :result="resultCard"
       :cardnumber="index"
       class="main__score"
-      @turn-over="turnOverCard"
       @change-status="сhangeCardsStatus"
     />
     </div>    

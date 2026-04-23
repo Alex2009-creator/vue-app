@@ -15,7 +15,6 @@
             <h2 v-else-if="isCompleted" class="container-card__title">{{ result }}</h2>
             <div
                 class="container-card__description"
-                @click="changeStatusCard"
             >
                 <div v-if="isCardFlipped" class="container-card__message">Перевернуть</div>
                 <div v-else-if="!isCardFlipped && !isCompleted" class="container-card__btns">
@@ -39,13 +38,13 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue'
+    import { ref, inject } from 'vue'
     import Button from './Button.vue';
 
     const {
         word="Unadmitted",
         translation="Не допущенный",
-        result="автомобиль",
+        result="",
         cardnumber=1,        
     } = defineProps({
         word: String,
@@ -54,13 +53,11 @@
         cardnumber: Number
     })
 
-    const emit = defineEmits(["turn-over", "change-status"])
-    const flipСard = () => {
-        emit("turn-over", "Карта перевернута")
-    }
+    const emit = defineEmits(["change-status"])
+    
     const isCardFlipped = ref(true)
-    const changeStatusCard = () => {
-        emit("change-status", "Статус изменен"),
+
+    const flipСard = () => {
         isCardFlipped.value = false
     }
 
@@ -71,15 +68,20 @@
 
     const isCompleted = ref(false)
     const isLogoUrl = ref('')
+    const gamePoints = inject('gamePoints')
 
     const clickStatusCardOk = () => {
         isCompleted.value = true
         isLogoUrl.value = logoUrl.value[0]
+        gamePoints.value = gamePoints.value + 10
+        emit("change-status", "Ответ верный")
     }
 
     const clickStatusCardClose = () => {
         isCompleted.value = true
         isLogoUrl.value = logoUrl.value[1]
+        gamePoints.value = gamePoints.value - 4
+        emit("change-status", "Неправильно")
     }
 </script>
 
