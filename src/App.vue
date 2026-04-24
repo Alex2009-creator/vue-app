@@ -2,7 +2,10 @@
   import { ref, onMounted, provide } from 'vue'
   import Score from './components/Score.vue'
   import Card from './components/Card.vue'
+  import ButtonStart from './components/ButtonStart.vue'
 
+  const textBtnStart = ref('Начать игру')
+  const isVisibleBtnStart = ref(true)
   const gamePoints = ref(0)
   provide('gamePoints', gamePoints);
 
@@ -15,6 +18,10 @@
   const words = ref([]);
   const isLoading = ref(true);
   const error = ref(null);
+
+  const onRloadApp = (payload) => {
+    return isVisibleBtnStart.value = payload
+  }
 
   const fetchWords = async () => {
     try {
@@ -37,7 +44,18 @@
 </script>
 
 <template>
-  <div class="container">
+  <div
+    v-if="isVisibleBtnStart"
+    class="box"
+  >
+    <ButtonStart
+        :text-btn="textBtnStart"
+        :btn-start="isVisibleBtnStart"
+        @visible-page="onRloadApp"
+        class="btn-start"
+      />
+  </div>
+  <div v-else class="container">
     <div class="header">
       <h1 class="header__title">Запомни слово</h1>
       <Score
@@ -58,15 +76,29 @@
       class="main__score"
       @change-status="сhangeCardsStatus"
     />
-    </div>    
+    </div>
+    <div class="footer">
+      <ButtonStart
+        :text-btn="textBtnStart"
+        :is-btn-start="isVisibleBtnStart "
+        @visible-page="onRloadApp"
+        class="btn-start btn-start--reload"
+      />
+    </div>   
   </div>
 </template>
 
 <style scoped>
+  .box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .container {
     width: 1440px;
-    height: 100vh;
-    background-color: #F0F4F8;
+    height: auto;
+    background-color: #F0F4F8;    
   }
 
   .header {
@@ -101,5 +133,18 @@
   .main__score {
     width: 250px;
     height: 376px;
+  }
+
+  .btn-start {
+    min-width: 335px;
+    min-height: 68px;
+    border-radius: 100px;
+    background-color: #008BFE;
+    font-size: 24px;
+    color: #FFFFFF;
+  }
+
+  .btn-start--reload {
+    margin: 100px 0 60px;
   }
 </style>
