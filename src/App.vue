@@ -80,7 +80,7 @@
     <div class="footer">
       <ButtonStart
         :text-btn="textBtnStart"
-        :is-btn-start="isVisibleBtnStart "
+        :btn-start="isVisibleBtnStart "
         @visible-page="onRloadApp"
         class="btn-start btn-start--reload"
       />
